@@ -48,14 +48,17 @@ export const App = () => {
     fetchData();
   }, [query, page]);
 
-  const onSubmit = query => {
-    if (query.trim() === '') {
+  const onSubmit = search => {
+    if (search === query) {
+      return;
+    }
+    if (search.trim() === '') {
       setIsLoading(false);
       setIsBtnVisible(false);
       Notiflix.Notify.info('Fill the search form');
       return;
     }
-    setQuery(query);
+    setQuery(search);
     setPage(1);
     setImages([]);
   };
