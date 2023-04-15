@@ -27,12 +27,7 @@ export const App = () => {
     const fetchData = async () => {
       const { totalHits, hits } = await fetchImages(query, page);
       try {
-        if (query.trim() === '') {
-          setIsLoading(false);
-          setIsBtnVisible(false);
-          Notiflix.Notify.info('Fill the search form');
-          return;
-        } else if (totalHits === 0) {
+        if (totalHits === 0) {
           Notiflix.Notify.info('Nothing was found on your request');
           setIsLoading(false);
           setIsBtnVisible(false);
@@ -54,11 +49,16 @@ export const App = () => {
   }, [query, page]);
 
   const onSubmit = query => {
+    if (query.trim() === '') {
+      setIsLoading(false);
+      setIsBtnVisible(false);
+      Notiflix.Notify.info('Fill the search form');
+      return;
+    }
     setQuery(query);
     setPage(1);
     setImages([]);
   };
-
   const onLoadMore = () => {
     setPage(prevState => prevState + 1);
   };
@@ -68,9 +68,6 @@ export const App = () => {
   };
   const modalImg = img => {
     setModalPicture(img);
-  };
-  const onCloseModal = () => {
-    setIsModalOpen(false);
   };
 
   return (
@@ -85,7 +82,9 @@ export const App = () => {
       )}
       {isBtnVisible && <Button onClick={onLoadMore}>Load more</Button>}
       {isLoading && <Loader />}
-      {isModalOpen && <Modal onClose={toggleModal} onShowImg={modalPicture} />}
+      {isModalOpen && (
+        <Modal onCloseModal={toggleModal} onShowImg={modalPicture} />
+      )}
     </>
   );
 };
