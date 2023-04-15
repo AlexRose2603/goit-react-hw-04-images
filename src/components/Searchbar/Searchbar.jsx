@@ -9,7 +9,7 @@ export const Searchbar = ({ onSubmit }) => {
   };
   const handleSubmit = event => {
     event.preventDefault();
-    onSubmit(event.target.value);
+    onSubmit(value);
     setValue(value);
   };
 

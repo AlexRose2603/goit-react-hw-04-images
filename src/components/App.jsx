@@ -37,9 +37,11 @@ export const App = () => {
           setIsLoading(false);
           setIsBtnVisible(false);
           return;
-        } else if (hits === totalHits) {
+        } else if (hits < 12) {
           Notiflix.Notify.info('These are all the images we found');
           setIsBtnVisible(false);
+          setIsLoading(false);
+          return;
         }
         setImages(prevState => [...prevState, ...hits]);
         setIsLoading(false);
@@ -66,6 +68,9 @@ export const App = () => {
   };
   const modalImg = img => {
     setModalPicture(img);
+  };
+  const onCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (

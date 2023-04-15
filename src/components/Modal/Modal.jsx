@@ -4,24 +4,23 @@ import { useEffect } from 'react';
 
 const modalRoot = document.querySelector('#modal-root');
 
-export const Modal = ({ onClose, onShowImg }) => {
+export const Modal = ({ onCloseModal, onShowImg }) => {
   useEffect(() => {
+    const handleKeydown = event => {
+      if (event.code === 'Escape') {
+        onCloseModal();
+      }
+    };
     window.addEventListener('keydown', handleKeydown);
-  });
 
-  useEffect(() => {
-    window.removeEventListener('keydown', handleKeydown);
-  });
-
-  const handleKeydown = event => {
-    if (event.code === 'Escape') {
-      onClose();
-    }
-  };
+    return () => {
+      window.removeEventListener('keydown', handleKeydown);
+    };
+  }, [onCloseModal]);
 
   const handleBackdropClick = event => {
     if (event.currentTarget === event.target) {
-      onClose();
+      onCloseModal();
     }
   };
 
